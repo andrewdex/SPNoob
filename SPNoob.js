@@ -24,7 +24,7 @@
                 if (mode == "New") {
 
                     pathname = parent.window.location.pathname;
-                    var mode = "AllItems.aspx";
+                    var modeUrl = "AllItems.aspx";
 
                     var getMatched = pathname.match(mode);
 
