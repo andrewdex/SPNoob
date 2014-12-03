@@ -6,79 +6,123 @@
 * Github : @andrewdex
 */
 
-(function(){
+(function () {
 
-/*SPNoob : SP Helper Library : Dilusha */
+    /*SPNoob : SP Helper Library : Dilusha */
 
-var SPNoob = {
+    var SPNoob = {
 
-	/*Get Sharepoint Form Mode : New/Edit/View Modes*/
-    IsMode : function(mode){
+        /*Get Sharepoint Form Mode : New/Edit/View Modes*/
+        IsMode: function (mode) {
 
-        var status = false;
-        
-        if(mode !== undefined && mode !== ""){
+            var status = false;
 
-            var pathname = window.location.pathname;
+            if (mode !== undefined && mode !== "") {
 
-            if(mode == "New"){
+                var pathname = window.location.pathname;
 
-              var mode = "AllItems.aspx"
+                if (mode == "New") {
 
-              var getMatched = pathname.match(mode);
+                    pathname = parent.window.location.pathname;
+                    var mode = "AllItems.aspx";
 
-              if(getMatched !== null){
-                status = true;
-              }
+                    var getMatched = pathname.match(mode);
+
+                    if (getMatched !== null) {
+                        status = true;
+                    }
+
+                }
+
+                if (mode == "Edit") {
+
+                    var mode = "EditForm.aspx";
+
+                    var getMatched = pathname.match(mode);
+
+                    if (getMatched !== null) {
+                        status = true;
+                    }
+
+                }
+
+                if (mode == "View") {
+
+                    var mode = "DispForm.aspx";
+
+                    var getMatched = pathname.match(mode);
+
+                    if (getMatched !== null) {
+                        status = true;
+                    }
+
+                }
 
             }
 
-            if(mode == "Edit"){
+            return status;
 
-              var mode = "EditForm.aspx"
 
-              var getMatched = pathname.match(mode);
+        },
+        Common: {
 
-              if(getMatched !== null){
-                status = true;
-              }
+            URLGetOrigin: function () {
+
+                var urlreturn = "";
+                var urlorigin = window.location.origin;
+
+                if(urlorigin !== undefined || urlorigin !== ""){
+
+                    urlreturn = urlorigin;
+
+                }
+
+                return urlreturn;
+
+
+            },
+
+            URLGetPath: function () {
+
+                var urlreturn = "";
+                var urlpath = window.location.pathname;
+
+                if(urlpath !== undefined || urlpath !== ""){
+
+                    urlreturn = urlpath;
+
+                }
+
+                return urlreturn;
+
+
+            },
+            URLGetCorrectLib: function(){
+
+                var returnurl="";
+                var preparedUrlOrigin = SPNoob.Common.URLGetOrigin();
+                var preparedUrlPath = SPNoob.Common.URLGetPath();
+                var preparedURL =  preparedUrlOrigin + "/" + preparedUrlPath;
+
+                var splittedSlashURL = preparedUrlPath.split("/");
+                var getAbsoulteLibBefore = splittedSlashURL[1];
+                var getAbsoulteLibpath = splittedSlashURL[2];
+
+                var setAbsoluteURLLibPath = preparedUrlOrigin+"/"+getAbsoulteLibBefore+"/"+getAbsoulteLibpath;
+
+                return returnurl = setAbsoluteURLLibPath;
 
             }
 
-            if(mode == "View"){
-
-              var mode = "DispForm.aspx"
-
-              var getMatched = pathname.match(mode);
-
-              if(getMatched !== null){
-                status = true;
-              }
-
-            }
-            
         }
 
-        return status;
 
+    };
 
-    },
-    Common:{
+    /*Expose to a global var*/
+    window.SPNoob = SPNoob;
 
-        getModeSample: function(mode){
-
-
-
-        }
-    }
-
-
-};
-
-/*Expose to a global var*/
-window.SPNoob = SPNoob;
-
-/*Expose to a global var*/
-window.spnoob = SPNoob;
+    /*Expose to a global var*/
+    window.spnoob = SPNoob;
 
 })();
